@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     int timeToEnd;
+    int points = 0;
+    Dictionary<KeyColor, int> keys = new Dictionary<KeyColor, int>();
+
+
     bool isGamePaused = false;
     [SerializeField]
     KeyCode pausekey = KeyCode.P;
@@ -32,6 +36,9 @@ public class GameManager : MonoBehaviour
         {
             timeToEnd = 100;
         }
+        keys[KeyColor.Red] = 0;
+        keys[KeyColor.Green] = 0;
+        keys[KeyColor.Gold] = 0;
 
         InvokeRepeating(nameof(Timer), 2f, 1f);
     }
@@ -97,9 +104,30 @@ public class GameManager : MonoBehaviour
         if (win)
         {
             Debug.Log("you win!");
-        }else
+        }
+        else
         {
             Debug.Log("you lose!");
         }
+    }
+
+    public void AddPoints(int points)
+    {
+        this.points += points;
+    }
+    public void AddTime(int time)
+    {
+        timeToEnd += time;
+    }
+    public void FreezeTime(int freezeTime)
+    {
+        CancelInvoke(nameof(Timer));
+        InvokeRepeating(nameof(Timer), freezeTime, 1f);
+
+    }
+    public void AddKey(KeyColor color)
+    {
+        keys[color]++;
+        Debug.Log($"{color.ToString()} = {keys[color]}");
     }
 }

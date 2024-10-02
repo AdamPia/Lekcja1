@@ -60,4 +60,12 @@ public class PlayerController : MonoBehaviour
         characterController.Move(move * speed * Time.deltaTime);
 
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "PickUp")
+        {
+            other.gameObject.GetComponent<PickUp>().Picked();
+        }
+    }
 }
